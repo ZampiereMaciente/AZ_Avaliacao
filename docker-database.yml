@@ -1,0 +1,14 @@
+---
+  version: "3"
+  services:
+    postgresql: 
+      image: "postgres:10.5-alpine"
+      ports: 
+        - "5435:5432"
+      volumes: 
+        - "postgresqldata:/var/lib/postgresql/data"
+        - "./database:/docker-entrypoint-initdb.d" # para puxar os scripts de criar e popular o banco
+      env_file: 
+        - "variables.env"
+  volumes: 
+    postgresqldata: null
