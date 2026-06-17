@@ -3,6 +3,7 @@ package br.com.selecao.locadora.service;
 import br.com.selecao.locadora.business.EmpresaBO;
 import br.com.selecao.locadora.dto.response.EmpresaResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import br.com.selecao.locadora.dto.request.EmpresaRequestDTO;
@@ -37,9 +38,7 @@ public class EmpresaService {
     public ResponseEntity<EmpresaResponseDTO> salvar(
             @Valid @RequestBody EmpresaRequestDTO dto) {
 
-        return ResponseEntity.ok(
-                empresaBO.salvar(dto)
-        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(empresaBO.salvar(dto));
     }
 
     @PutMapping("/{id}")
