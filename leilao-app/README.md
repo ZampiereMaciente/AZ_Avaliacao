@@ -29,19 +29,18 @@ Para garantir uma interface profissional e agradável para o usuário final, for
 
 ## 📸 Demonstração das Telas
 
-> [!NOTE]
-> *Imagens ilustrativas do sistema em funcionamento.*
-
 ### 🏠 Tela Principal (Home)
-![Home Screen](./src/assets/print-home.png)
+<img width="1433" height="713" alt="home" src="https://github.com/user-attachments/assets/ea7abe36-3b41-466c-9047-c3e31d06378f" />
 
 ### 🏢 Cadastro de Unidades
 *Contém a grid de consulta rápida, busca textual instantânea e modal de inclusão/edição.*
-![Unidades Screen](./src/assets/print-unidades.png)
+<img width="1433" height="710" alt="unidade" src="https://github.com/user-attachments/assets/4040daf6-2326-47d0-92d4-e5774deb8a04" />
+<img width="1431" height="711" alt="unidades" src="https://github.com/user-attachments/assets/e48b2ce1-a211-4b19-9e61-a55e964208da" />
 
 ### 🏢 Consulta de Empresas
 *Grid de consulta exibindo CNPJ e Telefone formatados, com botões para exclusão e edição.*
-![Empresas Screen](./src/assets/print-empresas.png)
+<img width="1430" height="710" alt="empresas" src="https://github.com/user-attachments/assets/1416483b-7976-4a27-85a5-2b9985bc4e4b" />
+<img width="1431" height="713" alt="empresa" src="https://github.com/user-attachments/assets/0f95ef34-ed42-4ee1-ad15-0b69e5eb0081" />
 
 ### ✍️ Formulário de Cadastro de Empresa
 *Formulário com máscaras ativas, agrupamento por abas de dados e validações em tempo real.*
@@ -49,7 +48,8 @@ Para garantir uma interface profissional e agradável para o usuário final, for
 
 ### 🔨 Consulta de Leilões
 *Grid exibindo o vendedor, data de início formatada e o valor total acumulado do leilão calculados dinamicamente.*
-![Leilões Screen](./src/assets/print-leiloes.png)
+<img width="1434" height="709" alt="leiloes" src="https://github.com/user-attachments/assets/dfd668c5-1e1c-48c3-b97a-759344f6d1b2" />
+<img width="1437" height="538" alt="leilao" src="https://github.com/user-attachments/assets/e02ad08b-4c3f-4224-a2b8-10ebf2ab7d81" />
 
 ---
 
