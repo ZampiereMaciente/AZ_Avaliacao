@@ -19,7 +19,7 @@ export default {
   min-height: calc(100vh - 100px);
 }
 
-/* 🛠️ ESTILIZAÇÃO DO FUNDO DO SITE COM A SUA IMAGEM DE ASSETS */
+
 .bg-imagem {
   /* ATENÇÃO: Substitua 'fundo.jpg' pelo nome e extensão exata da sua imagem que está em assets */
   background-image: url('../assets/backgroundaz.png'); 

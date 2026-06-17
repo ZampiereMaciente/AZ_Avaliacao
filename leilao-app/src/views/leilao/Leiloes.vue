@@ -1,20 +1,36 @@
-<template >
+<template>
   <v-container fluid>
     <v-card class="pa-4" color="#DCDCDC">
-      <v-card-title class="d-flex justify-space-between align-center">
-        <h2>Consulta de Leilões</h2>
-        <v-btn color="primary" dark to="/leilao">
-          Novo Leilão
-        </v-btn>
+      <v-card-title class="d-flex justify-space-between align-center py-3">
+        <h2 class="grey--text text--darken-3 font-weight-bold">Consulta de Leilões</h2>
+        
+        <div class="d-flex align-center">
+          <v-text-field
+            v-model="busca"
+            append-icon="mdi-magnify"
+            label="Buscar leilão..."
+            outlined
+            dense
+            hide-details
+            background-color="#f5f5f5"
+            style="max-width: 260px;"
+            class="mr-4"
+          ></v-text-field>
+
+          <v-btn color="primary" dark to="/leilao">
+            Novo Leilão
+          </v-btn>
+        </div>
       </v-card-title>
 
       <v-data-table
         :headers="headers"
         :items="leiloes"
+        :search="busca"
         :loading="loading"
         loading-text="Carregando leilões... Por favor aguarde"
         no-data-text="Nenhum leilão encontrado ou falha na conexão com o servidor."
-        class="elevation-1"
+        class="elevation-1 tabela-customizada"
       >
         <template v-slot:item.totalLeilao="{ item }">
           {{ formatarMoeda(item.totalLeilao) }}
@@ -28,12 +44,58 @@
           <v-icon small color="blue" class="mr-2" @click="editarLeilao(item.id)">
             mdi-pencil
           </v-icon>
-          <v-icon small color="red" @click="deletarLeilao(item)">
+          <v-icon small color="red" @click="confirmarExclusao(item)">
             mdi-delete
           </v-icon>
         </template>
       </v-data-table>
     </v-card>
+
+    <v-dialog v-model="dialogConfirmar" max-width="450px" persistent>
+      <v-card class="pa-4">
+        <v-card-title class="d-flex flex-column align-center justify-center pb-2">
+          <v-icon color="warning" size="56" class="mb-2">mdi-alert-circle-outline</v-icon>
+          <h3 class="headline font-weight-bold grey--text text--darken-3 text-center width-100">
+            Confirmar Exclusão
+          </h3>
+        </v-card-title>
+
+        <v-card-text class="text-body-1 text-center grey--text text--darken-2 pt-2">
+          Deseja realmente excluir o leilão com código <br>
+          <strong>"{{ leilaoSelecionado?.codigo }}"</strong>?
+        </v-card-text>
+
+        <v-card-actions class="justify-center pt-4">
+          <v-btn color="grey darken-1" text class="px-4 mr-2" @click="dialogConfirmar = false">
+            Cancelar
+          </v-btn>
+          <v-btn color="error" class="px-6" @click="executarExclusao">
+            Excluir
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogErro" max-width="450px" persistent>
+      <v-card class="pa-4">
+        <v-card-title class="d-flex flex-column align-center justify-center pb-2">
+          <v-icon color="error" size="56" class="mb-2">mdi-alert-octagon-outline</v-icon>
+          <h3 class="headline font-weight-bold grey--text text--darken-3 text-center width-100">
+            Não é possível excluir!
+          </h3>
+        </v-card-title>
+
+        <v-card-text class="text-body-1 text-center grey--text text--darken-2 pt-2">
+          {{ mensagemErroExclusao }}
+        </v-card-text>
+
+        <v-card-actions class="justify-center pt-4">
+          <v-btn color="primary" class="px-6" @click="dialogErro = false">
+            Entendi
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -44,8 +106,15 @@ export default {
   name: 'LeiloesView',
   data: () => ({
     loading: false,
+    busca: '',
+    
+    // 💡 NOVAS VARIÁVEIS: Controle dos novos modais
+    dialogConfirmar: false,
+    leilaoSelecionado: null,
+    dialogErro: false,
+    mensagemErroExclusao: '',
+
     headers: [
-      { text: 'ID', value: 'id', align: 'start', sortable: true },
       { text: 'Código', value: 'codigo', sortable: true },
       { text: 'Descrição', value: 'descricao', sortable: true },
       { text: 'Vendedor', value: 'vendedorRazaoSocial', sortable: true },
@@ -77,14 +146,25 @@ export default {
       this.$router.push(`/leilao/${id}`)
     },
 
-    async deletarLeilao(item) {
-      if (confirm(`Deseja realmente excluir o leilão com código "${item.codigo}"?`)) {
-        try {
-          await api.delete(`/leiloes/${item.id}`)
-          this.listarLeiloes()
-        } catch (error) {
-          alert(error.response?.data?.message || 'Erro ao tentar remover o leilão.')
-        }
+    // 💡 PASSO 1: Abre o modal de confirmação
+    confirmarExclusao(item) {
+      this.leilaoSelecionado = item
+      this.dialogConfirmar = true
+    },
+
+    // 💡 PASSO 2: Executa a exclusão de fato na API
+    async executarExclusao() {
+      this.dialogConfirmar = false
+      this.loading = true
+      try {
+        await api.delete(`/leiloes/${this.leilaoSelecionado.id}`)
+        this.listarLeiloes()
+      } catch (error) {
+        this.mensagemErroExclusao = error.response?.data?.message || 'Erro ao tentar remover o leilão devido a dependências ativas.'
+        this.dialogErro = true
+      } finally {
+        this.loading = false
+        this.leilaoSelecionado = null
       }
     },
 
@@ -103,26 +183,7 @@ export default {
 </script>
 
 <style scoped>
-::v-deep .v-data-table tbody tr:nth-of-type(odd) {
-  background-color: #f2f2f2;
-}
-::v-deep .v-data-table tbody tr:hover {
-  background-color: #e6e6e6 !important;
-}
-</style>
-
-<style scoped>
-/* 💡 Altera o tamanho da fonte do texto dos cabeçalhos */
-::v-deep .v-data-table thead th {
-  font-size: 16px !important;       /* Altere o valor (ex: 14px, 18px) para o tamanho que desejar */
-  font-weight: bold !important;     /* Opcional: Deixa o texto em negrito */
-}
-
-/* Mantém os seus estilos anteriores abaixo */
-::v-deep .v-data-table tbody tr:nth-of-type(odd) {
-  background-color: #f2f2f2;
-}
-::v-deep .v-data-table tbody tr:hover {
-  background-color: #e6e6e6 !important;
+.width-100 {
+  width: 100%;
 }
 </style>

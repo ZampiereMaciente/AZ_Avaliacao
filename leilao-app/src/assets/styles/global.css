@@ -1,0 +1,26 @@
+/* src/assets/styles/global.css */
+
+/* Altera o tamanho da fonte do texto dos cabeçalhos */
+.tabela-customizada.v-data-table thead th {
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+/* Altera o fundo background interno do grid mantendo a base cinza */
+.tabela-customizada.v-data-table {
+  background-color: #f5f5f5 !important;
+}
+
+.tabela-customizada.v-data-table tbody tr {
+  background-color: transparent !important;
+}
+
+/* Preserva e destaca o seu efeito ZEBRADO tradicional nas linhas ímpares */
+.tabela-customizada.v-data-table tbody tr:nth-of-type(odd) {
+  background-color: #e8e8e8 !important;
+}
+
+/* Mantém o efeito de Hover quando o mouse passa por cima */
+.tabela-customizada.v-data-table tbody tr:hover {
+  background-color: #dbdbdb !important;
+}

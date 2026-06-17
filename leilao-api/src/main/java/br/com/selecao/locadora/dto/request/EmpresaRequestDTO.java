@@ -27,9 +27,7 @@ public class EmpresaRequestDTO {
     private String numero;
     private String complemento;
     private String bairro;
-    @Size(min = 8, max = 8, message = "CEP deve conter exatamente 8 numeros.")
     private String cep;
-    @Size(min = 10, max = 11, message = "Telefone deve conter exatamente 11 numeros")
     private String telefone;
 
     @NotBlank(message = "Email é obrigatório.")
@@ -40,8 +38,6 @@ public class EmpresaRequestDTO {
 
     @NotBlank(message = "Usuário é obrigatório.")
     private String usuario;
-
-    @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
     private String senha;
 
 }

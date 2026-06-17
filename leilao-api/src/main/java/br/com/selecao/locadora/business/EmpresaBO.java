@@ -72,9 +72,13 @@ public class EmpresaBO {
         Empresa empresa = new Empresa();
         preencherDados(empresa, dto);
 
-        // 🔐 CRIPTOGRAFIA REAL NA INCLUSÃO: Transforma a senha limpa em Hash BCrypt irreversível
-        String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
-        empresa.setSenha(senhaCriptografada);
+        // se veio senha, criptografa. Se não veio, salva nulo (sem hash falso).
+        if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
+            String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+            empresa.setSenha(senhaCriptografada);
+        } else {
+            empresa.setSenha(null);
+        }
 
         empresa = empresaRepository.save(empresa);
         return converterParaDTO(empresa);
@@ -84,7 +88,7 @@ public class EmpresaBO {
         Empresa empresa = empresaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada para o id: " + id));
 
-        // AJUSTE FINO: Validação para impedir atualização para dados duplicados de outras empresas
+        // Validação para impedir atualização para dados duplicados de outras empresas
         Empresa empresaPorCnpj = empresaRepository.findByCnpj(dto.getCnpj());
         if (empresaPorCnpj != null && !empresaPorCnpj.getId().equals(id)) {
             throw new DuplicateResourceException("Já existe outra empresa cadastrada com este CNPJ.");
@@ -92,12 +96,11 @@ public class EmpresaBO {
 
         preencherDados(empresa, dto);
 
-        // 🔐 CRIPTOGRAFIA REAL NA ALTERAÇÃO:
-        // Só gera um novo Hash se o usuário digitou uma nova senha na tela do Vue.
-        // Se veio em branco ou nulo, o método preencherDados já manteve os outros dados e a senha anterior intacta.
-        if (dto.getSenha() != null && !dto.getSenha().isBlank()) {
-            String novaSenhaCriptografada = passwordEncoder.encode(dto.getSenha());
-            empresa.setSenha(novaSenhaCriptografada);
+        // gera um novo Hash se o usuário digitou uma NOVA senha.
+        // Se veio em branco, removemos o "else", logo a senha atual que já estava no banco continua INTACTA.
+        if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
+            String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
+            empresa.setSenha(senhaCriptografada);
         }
 
         empresa = empresaRepository.save(empresa);
