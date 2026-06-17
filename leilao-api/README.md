@@ -54,10 +54,7 @@ Focados em validar o comportamento dos controladores REST usando `MockMvc` para 
 - Retorno HTTP `200 OK` no PUT para atualizações e no DELETE para exclusões bem-sucedidas.
 
 ### 📸 Execução dos Testes JUnit
-> [!NOTE]
-> *Imagem ilustrativa dos resultados de testes JUnit rodando com sucesso no ambiente de desenvolvimento.*
-
-![Resultado dos Testes JUnit](./src/main/resources/print-testes-junit.png)
+<img width="1432" height="822" alt="testeJUnit" src="https://github.com/user-attachments/assets/5809d977-ce87-48aa-80cf-597e31630d47" />
 
 ---
 
@@ -69,13 +66,13 @@ Além dos testes unitários/integração automatizados, a API foi exaustivamente
 Utilizado para validar as requisições HTTP enviadas à API REST, assegurando o retorno de status adequados (ex: `201 Created` ao criar registros) e mensagens de erro estruturadas.
 - **Cenário de Teste**: Criação/Inclusão de nova Empresa via POST `/empresas` com corpo JSON completo e validações.
 - **Print de Validação (Postman)**:
-  ![Validação com Postman](./src/main/resources/print-postman.png)
+<img width="1431" height="821" alt="postamn" src="https://github.com/user-attachments/assets/a9532e20-0632-49bb-9ae3-8ddb00923adb" />
 
 ### 2. Auditoria de Banco de Dados via **DBeaver**
 Utilizado para conectar diretamente ao banco PostgreSQL (porta `5435`) e garantir a persistência correta, verificação de sequences, triggers e as alterações de tabelas em tempo real.
 - **Cenário de Auditoria**: Verificação da inserção física das empresas na tabela, confirmando se os dados estão armazenados corretamente (como senhas criptografadas em hash BCrypt).
 - **Print de Validação (DBeaver)**:
-  ![Validação com DBeaver](./src/main/resources/print-dbeaver.png)
+<img width="1435" height="824" alt="DBevaer" src="https://github.com/user-attachments/assets/d832f931-87c8-49b2-81b2-41a62efcea4c" />
 
 ---
 
