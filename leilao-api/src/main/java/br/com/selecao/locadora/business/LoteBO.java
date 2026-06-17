@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+// Classe de regras de negocio para Lotes
 public class LoteBO {
 
     @Autowired
@@ -23,6 +24,7 @@ public class LoteBO {
     @Autowired
     private LeilaoRepository leilaoRepository;
 
+    // Retorna todos os lotes pertencentes ao leilao informado
     public List<LoteResponseDTO> buscarPorLeilao(Long leilaoId) {
         List<Lote> lotes = loteRepository.findByLeilaoId(leilaoId);
         return lotes.stream()
@@ -30,6 +32,7 @@ public class LoteBO {
                 .collect(Collectors.toList());
     }
 
+    // Busca um lote especifico ou lanca excecao caso nao exista
     public LoteResponseDTO buscarPorId(Long id) {
         Lote lote = loteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lote não encontrado para o id: " + id));
@@ -37,7 +40,7 @@ public class LoteBO {
     }
 
     public LoteResponseDTO salvar(LoteRequestDTO dto) {
-        // Evita duplicar o número de lote no mesmo leilão
+        // Evita duplicar o numero de lote no mesmo leilao
         if (loteRepository.existsByNumeroLoteAndLeilaoId(dto.getNumeroLote(), dto.getLeilaoId())) {
             throw new DuplicateResourceException("Já existe um lote com o número " + dto.getNumeroLote() + " neste leilão.");
         }
@@ -57,6 +60,7 @@ public class LoteBO {
         return converterParaDTO(lote);
     }
 
+    // Atualiza as informacoes do lote garantindo unicidade do numero no leilao
     public LoteResponseDTO atualizar(Long id, LoteRequestDTO dto) {
         Lote lote = loteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lote não encontrado para o id: " + id));
@@ -64,7 +68,7 @@ public class LoteBO {
         Leilao leilao = leilaoRepository.findById(dto.getLeilaoId())
                 .orElseThrow(() -> new ResourceNotFoundException("Leilão não encontrado para o id: " + dto.getLeilaoId()));
 
-        // Se o número mudou, valida duplicidade
+        // Se o numero mudou, valida duplicidade
         if (!lote.getNumeroLote().equals(dto.getNumeroLote()) &&
                 loteRepository.existsByNumeroLoteAndLeilaoId(dto.getNumeroLote(), dto.getLeilaoId())) {
             throw new DuplicateResourceException("Já existe um lote com o número " + dto.getNumeroLote() + " neste leilão.");
@@ -81,6 +85,7 @@ public class LoteBO {
         return converterParaDTO(lote);
     }
 
+    // Exclui um lote do banco de dados pelo ID
     public void deletar(Long id) {
         Lote lote = loteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Lote não encontrado para o id: " + id));

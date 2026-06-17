@@ -102,6 +102,7 @@
 </template>
 
 <script>
+// Componente de formulario para criacao e edicao de Leiloes, tratando datas e horas separadamente para facilitar a interacao
 export default {
   name: 'FormularioLeilao',
   props: {
@@ -117,6 +118,7 @@ export default {
     localLeilao: {}
   }),
   computed: {
+    // Formata a data do formato YYYY-MM-DD para o formato brasileiro DD/MM/YYYY
     dataFormatada() {
       if (!this.dataSelecionada) return ''
       const [ano, mes, dia] = this.dataSelecionada.split('-')

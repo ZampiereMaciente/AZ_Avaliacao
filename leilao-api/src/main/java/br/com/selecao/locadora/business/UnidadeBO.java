@@ -13,23 +13,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+// Classe de regras de negocio para Unidades
 public class UnidadeBO {
 
     @Autowired
     private UnidadeRepository unidadeRepository;
 
+    // Retorna todos os registros mapeados para DTO
     public List<UnidadeResponseDTO> buscarTodos() {
         return unidadeRepository.findAll().stream()
                 .map(this::converterParaDTO)
                 .collect(Collectors.toList());
     }
 
+    // Busca um registro pelo ID ou lanca excecao caso nao exista
     public UnidadeResponseDTO buscarPorId(Long id) {
         Unidade unidade = unidadeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada para o id: " + id));
         return converterParaDTO(unidade);
     }
 
+    // Insere uma nova unidade verificando duplicidade de nome
     public UnidadeResponseDTO salvar(UnidadeRequestDTO dto) {
         if (unidadeRepository.existsByNome(dto.getNome())) {
             throw new DuplicateResourceException("Já existe uma unidade cadastrada com o nome: " + dto.getNome());
@@ -42,6 +46,7 @@ public class UnidadeBO {
         return converterParaDTO(unidade);
     }
 
+    // Atualiza a unidade garantindo que o novo nome nao colida com outro registro
     public UnidadeResponseDTO atualizar(Long id, UnidadeRequestDTO dto) {
         Unidade unidade = unidadeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada para o id: " + id));
@@ -57,6 +62,7 @@ public class UnidadeBO {
         return converterParaDTO(unidade);
     }
 
+    // Remove a unidade do banco de dados pelo seu ID
     public void deletar(Long id) {
         Unidade unidade = unidadeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Unidade não encontrada para o id: " + id));

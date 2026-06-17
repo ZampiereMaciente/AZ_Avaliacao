@@ -4,6 +4,7 @@ import 'vuetify/dist/vuetify.min.css';
 
 Vue.use(Vuetify);
 
+// Configuracao do plugin Vuetify para o layout UI e customizacao do tema de cores
 export default new Vuetify({
   theme: {
     themes: {

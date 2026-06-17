@@ -58,11 +58,13 @@ export default {
     }
   },
   methods: {
+    // Busca os dados da empresa na API pelo ID fornecido na rota
     async carregarEmpresa() {
       try {
         const response = await api.get(`/empresas/${this.id}`)
         this.empresa = response.data
-        this.empresa.senha = '' // 💡 GARANTE que a tela carregue sem senha visível, ativando o placeholder informativo
+        // Limpa a senha do modelo local para manter o campo visual em branco/placeholder
+        this.empresa.senha = ''
       } catch (error) {
         console.error('Erro ao carregar dados:', error)
         this.erroMensagem = 'Erro ao recuperar dados da empresa.'
@@ -71,6 +73,7 @@ export default {
     voltar() {
       this.$router.push('/empresas')
     },
+    // Envia os dados cadastrados ou atualizados da empresa para a API, limpando as mascaras
     async salvar(dadosEmpresa) {
       this.erroMensagem = ''
 
@@ -81,7 +84,7 @@ export default {
         cep: dadosEmpresa.cep.replace(/\D/g, '')
       }
 
-      // 💡 SE FOR EDIÇÃO E A SENHA ESTIVER VAZIA: Removemos o campo antes de enviar para a API
+      // Evita o envio de senha em branco na edicao para nao sobrescrever a senha existente
       if (this.isEdicao && !dadosParaEnviar.senha) {
         delete dadosParaEnviar.senha
       }

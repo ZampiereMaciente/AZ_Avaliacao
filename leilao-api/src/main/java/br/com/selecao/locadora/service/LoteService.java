@@ -16,26 +16,31 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/lotes")
+// Endpoints REST para gerenciamento de Lotes
 public class LoteService {
 
     @Autowired
     private LoteBO loteBO;
 
+    // Busca todos os lotes pertencentes a um leilao especifico
     @GetMapping("/leilao/{leilaoId}")
     public ResponseEntity<List<LoteResponseDTO>> buscarPorLeilao(@PathVariable Long leilaoId) {
         return ResponseEntity.ok(loteBO.buscarPorLeilao(leilaoId));
     }
 
+    // Busca um lote especifico pelo seu ID
     @GetMapping("/{id}")
     public ResponseEntity<LoteResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(loteBO.buscarPorId(id));
     }
 
+    // Cadastra um novo lote no sistema
     @PostMapping
     public ResponseEntity<LoteResponseDTO> salvar(@Valid @RequestBody LoteRequestDTO dto) {
         return new ResponseEntity<>(loteBO.salvar(dto), HttpStatus.CREATED);
     }
 
+    // Atualiza os dados de um lote existente
     @PutMapping("/{id}")
     public ResponseEntity<LoteResponseDTO> atualizar(
             @PathVariable Long id,
@@ -43,6 +48,7 @@ public class LoteService {
         return ResponseEntity.ok(loteBO.atualizar(id, dto));
     }
 
+    // Remove um lote do sistema pelo ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> deletar(@PathVariable Long id) {
         loteBO.deletar(id);

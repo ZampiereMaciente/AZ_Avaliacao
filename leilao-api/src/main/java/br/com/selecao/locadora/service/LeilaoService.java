@@ -14,26 +14,31 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/leiloes")
+// Endpoints REST para gerenciamento de Leiloes
 public class LeilaoService {
 
     @Autowired
     private LeilaoBO leilaoBO;
 
+    // Retorna todos os leiloes cadastrados
     @GetMapping
     public ResponseEntity<List<LeilaoResponseDTO>> buscarTodos() {
         return ResponseEntity.ok(leilaoBO.buscarTodos());
     }
 
+    // Busca um leilao especifico pelo seu ID
     @GetMapping("/{id}")
     public ResponseEntity<LeilaoResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(leilaoBO.buscarPorId(id));
     }
 
+    // Cadastra um novo leilao
     @PostMapping
     public ResponseEntity<LeilaoResponseDTO> salvar(@Valid @RequestBody LeilaoRequestDTO dto) {
         return new ResponseEntity<>(leilaoBO.salvar(dto), HttpStatus.CREATED);
     }
 
+    // Atualiza os dados de um leilao existente
     @PutMapping("/{id}")
     public ResponseEntity<LeilaoResponseDTO> atualizar(
             @PathVariable Long id,
@@ -45,7 +50,7 @@ public class LeilaoService {
     public ResponseEntity<java.util.Map<String, Object>> deletar(@PathVariable Long id) {
         leilaoBO.deletar(id);
 
-        // Criamos o mapa usando Object para aceitar tanto Strings quanto números
+        // Criamos o mapa usando Object para aceitar tanto Strings quanto numeros
         java.util.Map<String, Object> resposta = new java.util.HashMap<>();
         resposta.put("id", id);
         resposta.put("mensagem", "Leilão deletado com sucesso!");

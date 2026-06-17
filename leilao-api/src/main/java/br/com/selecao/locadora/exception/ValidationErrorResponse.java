@@ -12,6 +12,7 @@ import java.util.Map;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// Objeto de resposta especifico para erros de validacao de campos
 public class ValidationErrorResponse {
 
     private LocalDateTime timestamp;

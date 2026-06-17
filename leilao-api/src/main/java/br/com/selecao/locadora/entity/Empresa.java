@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name = "empresa")
+// Entidade que representa a tabela Empresa no banco de dados
 public class Empresa implements Serializable {
 
     @Id
@@ -67,12 +68,14 @@ public class Empresa implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    // Define a data de criacao e atualizacao antes de persistir
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
+    // Atualiza a data de modificacao antes de atualizar o registro
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();

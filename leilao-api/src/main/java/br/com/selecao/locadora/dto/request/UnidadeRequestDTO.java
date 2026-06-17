@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de requisicao para receber os dados de criacao ou edicao de Unidade
 public class UnidadeRequestDTO {
 
     @NotBlank(message = "O nome da unidade é obrigatório")

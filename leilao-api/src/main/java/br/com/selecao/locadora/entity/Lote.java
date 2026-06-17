@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// Entidade que representa a tabela Lote no banco de dados
 public class Lote implements Serializable {
 
     @Id
@@ -37,7 +38,7 @@ public class Lote implements Serializable {
     @Column(name = "unidade", length = 128)
     private String unidade;
 
-    // Vários lotes pertencem a um único Leilão
+    // Varios lotes pertencem a um unico Leilao
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "leilaoid", nullable = false)
     private Leilao leilao;
@@ -48,12 +49,14 @@ public class Lote implements Serializable {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    // Define a data de criacao e atualizacao antes de persistir
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
+    // Atualiza a data de modificacao antes de atualizar o registro
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();

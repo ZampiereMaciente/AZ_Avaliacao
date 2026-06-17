@@ -14,17 +14,20 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/empresas")
+// Endpoints REST para gerenciamento de Empresas
 public class EmpresaService {
 
     @Autowired
     private EmpresaBO empresaBO;
 
+    // Retorna a lista de todas as empresas cadastradas
     @GetMapping
     public ResponseEntity<List<EmpresaResponseDTO>> buscarTodos() {
 
         return ResponseEntity.ok(empresaBO.buscarTodos());
     }
 
+    // Busca uma empresa especifica pelo seu ID
     @GetMapping("/{id}")
     public ResponseEntity<EmpresaResponseDTO> buscarPorId(
             @PathVariable Long id) {
@@ -34,6 +37,7 @@ public class EmpresaService {
         );
     }
 
+    // Insere uma nova empresa no sistema
     @PostMapping
     public ResponseEntity<EmpresaResponseDTO> salvar(
             @Valid @RequestBody EmpresaRequestDTO dto) {
@@ -41,6 +45,7 @@ public class EmpresaService {
         return ResponseEntity.status(HttpStatus.CREATED).body(empresaBO.salvar(dto));
     }
 
+    // Atualiza os dados de uma empresa existente
     @PutMapping("/{id}")
     public ResponseEntity<EmpresaResponseDTO> atualizar(
             @PathVariable Long id,
@@ -51,6 +56,7 @@ public class EmpresaService {
         );
     }
 
+    // Remove a empresa do sistema pelo ID
     @DeleteMapping("/{id}")
     public ResponseEntity<java.util.Map<String, Object>> deletar(
             @PathVariable Long id) {

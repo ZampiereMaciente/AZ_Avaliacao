@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de resposta para retornar os dados de vinculo do comprador
 public class CompradorResponseDTO {
 
     private Long empresaId;

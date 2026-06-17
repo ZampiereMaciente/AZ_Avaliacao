@@ -44,7 +44,6 @@
           <v-icon small color="blue" class="mr-2" @click="editarEmpresa(item.id)">
             mdi-pencil
           </v-icon>
-          <!-- 💡 ALTERADO: Agora passa o item para abrir o nosso modal customizado -->
           <v-icon small color="red" @click="confirmarExclusao(item)">
             mdi-delete
           </v-icon>
@@ -52,7 +51,7 @@
       </v-data-table>
     </v-card>
 
-    <!-- 💡 NOVO: Modal de CONFIRMAÇÃO de exclusão personalizado (Substitui o confirm nativo) -->
+    <!-- Modal de confirmacao de exclusao personalizado -->
     <v-dialog v-model="dialogConfirmar" max-width="450px" persistent>
       <v-card class="pa-4">
         <v-card-title class="d-flex flex-column align-center justify-center pb-2">
@@ -78,7 +77,7 @@
       </v-card>
     </v-dialog>
 
-    <!-- 💡 MANTIDO: Modal de AVISO DE ERRO de exclusão (Substitui o alert nativo) -->
+    <!-- Modal de aviso de erro de exclusao por integridade referencial -->
     <v-dialog v-model="dialogErro" max-width="450px" persistent>
       <v-card class="pa-4">
         <v-card-title class="d-flex flex-column align-center justify-center pb-2">
@@ -110,12 +109,9 @@ export default {
   data: () => ({
     loading: false,
     busca: '',
-    
-    // 💡 NOVAS VARIÁVEIS: Controle do modal de confirmação
+    // Controle de estado dos modais de confirmacao e erro
     dialogConfirmar: false,
     empresaSelecionada: null,
-
-    // Variáveis do modal de erro
     dialogErro: false,
     mensagemErroExclusao: '',
 
@@ -134,6 +130,7 @@ export default {
   },
 
   methods: {
+    // Obtem a lista completa de empresas cadastradas no backend
     async listarEmpresas() {
       this.loading = true
       try {
@@ -150,15 +147,15 @@ export default {
       this.$router.push(`/empresa/${id}`)
     },
 
-    // 💡 PASSO 1: Apenas guarda a empresa clicada e abre o modal de confirmação
+    // Define a empresa selecionada e abre o modal de confirmacao
     confirmarExclusao(item) {
       this.empresaSelecionada = item
       this.dialogConfirmar = true
     },
 
-    // 💡 PASSO 2: Executa a exclusão de fato ao clicar no botão "Excluir" do modal
+    // Executa a requisicao DELETE na API e exibe modal de erro em caso de falha de integridade
     async executarExclusao() {
-      this.dialogConfirmar = false // Fecha o modal de pergunta
+      this.dialogConfirmar = false
       this.loading = true
       
       try {
@@ -169,10 +166,11 @@ export default {
         this.dialogErro = true
       } finally {
         this.loading = false
-        this.empresaSelecionada = null // Limpa a referência
+        this.empresaSelecionada = null
       }
     },
 
+    // Formata o CNPJ sem formatação para exibicao no grid (ex: XX.XXX.XXX/XXXX-XX)
     formatarCNPJ(cnpj) {
       if (!cnpj) return ''
       return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")

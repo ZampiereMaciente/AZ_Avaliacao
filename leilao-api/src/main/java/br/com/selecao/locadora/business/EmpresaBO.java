@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import br.com.selecao.locadora.exception.DuplicateResourceException;
 
 @Service
+// Classe de regras de negocio para Empresas
 public class EmpresaBO {
 
     @Autowired
@@ -72,7 +73,7 @@ public class EmpresaBO {
         Empresa empresa = new Empresa();
         preencherDados(empresa, dto);
 
-        // se veio senha, criptografa. Se não veio, salva nulo (sem hash falso).
+        // se veio senha, criptografa. Se nao veio, salva nulo (sem hash falso).
         if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
             String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
             empresa.setSenha(senhaCriptografada);
@@ -88,7 +89,7 @@ public class EmpresaBO {
         Empresa empresa = empresaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Empresa não encontrada para o id: " + id));
 
-        // Validação para impedir atualização para dados duplicados de outras empresas
+        // Validacao para impedir atualizacao para dados duplicados de outras empresas
         Empresa empresaPorCnpj = empresaRepository.findByCnpj(dto.getCnpj());
         if (empresaPorCnpj != null && !empresaPorCnpj.getId().equals(id)) {
             throw new DuplicateResourceException("Já existe outra empresa cadastrada com este CNPJ.");
@@ -96,8 +97,7 @@ public class EmpresaBO {
 
         preencherDados(empresa, dto);
 
-        // gera um novo Hash se o usuário digitou uma NOVA senha.
-        // Se veio em branco, removemos o "else", logo a senha atual que já estava no banco continua INTACTA.
+        // gera um novo Hash se o usuario digitou uma NOVA senha.
         if (dto.getSenha() != null && !dto.getSenha().trim().isEmpty()) {
             String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
             empresa.setSenha(senhaCriptografada);

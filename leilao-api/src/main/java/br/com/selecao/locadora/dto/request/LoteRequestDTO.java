@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de requisicao para receber os dados de criacao ou edicao de Lote
 public class LoteRequestDTO {
 
     @NotNull(message = "O número do lote é obrigatório.")

@@ -11,8 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
+// Manipulador global de excecoes para a API
 public class ApiExceptionHandler {
 
+    // Trata excecoes de recursos nao encontrados retornando status 404
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -24,6 +26,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    // Trata erros de validacoes de campos de DTOs retornando status 400
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
@@ -42,7 +45,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    // MELHORIA: Unificação de exceções que compartilham o mesmo Status HTTP (409 Conflict)
+    // unificacao de excecoes que compartilham o mesmo Status HTTP (409 Conflict)
     @ExceptionHandler({DuplicateResourceException.class, DeleteConflictException.class})
     public ResponseEntity<ErrorResponse> handleConflict(RuntimeException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -54,6 +57,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
+    // Trata qualquer outra excecao generica inesperada retornando status 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
         ErrorResponse error = new ErrorResponse(

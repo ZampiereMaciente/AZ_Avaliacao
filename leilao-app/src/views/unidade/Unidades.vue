@@ -113,7 +113,7 @@ export default {
     busca: '',
     erroMensagem: '',
     
-    // 💡 NOVAS VARIÁVEIS: Controle dos novos modais
+    // Controle de estado dos modais de confirmacao e erro
     dialogConfirmar: false,
     unidadeSelecionada: null,
     dialogErro: false,
@@ -140,6 +140,7 @@ export default {
   },
 
   methods: {
+    // Obtem a lista completa de unidades cadastradas no backend
     async listarUnidades() {
       this.loading = true
       try {
@@ -153,6 +154,7 @@ export default {
       }
     },
 
+    // Prepara o objeto para criacao de uma nova unidade e abre o modal
     novaUnidade() {
       this.editedIndex = -1
       this.editedItem = { ...this.defaultItem }
@@ -160,6 +162,7 @@ export default {
       this.dialog = true
     },
 
+    // Prepara o objeto para edicao de uma unidade existente e abre o modal
     editarItem(item) {
       this.editedIndex = this.unidades.indexOf(item)
       this.editedItem = { ...item }
@@ -167,13 +170,13 @@ export default {
       this.dialog = true
     },
 
-    // 💡 PASSO 1: Abre o modal de confirmação
+    // Define a unidade selecionada e exibe o modal de confirmacao
     confirmarExclusao(item) {
       this.unidadeSelecionada = item
       this.dialogConfirmar = true
     },
 
-    // 💡 PASSO 2: Executa a exclusão de fato e trata o erro de integridade se houver
+    // Executa a requisicao DELETE na API e exibe modal em caso de erro de integridade referencial
     async executarExclusao() {
       this.dialogConfirmar = false
       this.loading = true
@@ -198,6 +201,7 @@ export default {
       })
     },
 
+    // Salva a unidade (criacao ou edicao) enviando os dados para a API
     async salvar(itemParaSalvar) {
       this.erroMensagem = ''
       try {

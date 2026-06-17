@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+// Repositorio JPA para realizar operacoes de banco de dados na tabela Comprador
 public interface CompradorRepository extends JpaRepository<Comprador, CompradorId> {
 
-    // Busca todos os compradores vinculados a um leilão específico
+    // Busca todos os compradores vinculados a um leilao especifico
     List<Comprador> findByIdLeilaoId(Long leilaoId);
 }

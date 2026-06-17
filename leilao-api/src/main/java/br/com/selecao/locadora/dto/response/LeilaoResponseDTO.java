@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de resposta para retornar dados de Leilao
 public class LeilaoResponseDTO {
 
     private Long id;

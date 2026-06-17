@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de requisicao para receber os dados de criacao ou edicao de Leilao
 public class LeilaoRequestDTO {
 
     @NotNull(message = "O código do leilão é obrigatório.")

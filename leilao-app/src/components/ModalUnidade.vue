@@ -46,6 +46,7 @@
 </template>
 
 <script>
+// Componente de dialogo modal para cadastrar ou editar uma Unidade
 export default {
   name: 'ModalUnidade',
   props: {
@@ -59,7 +60,7 @@ export default {
     localItem: {}
   }),
   watch: {
-    // Sincroniza o item recebido da View com a cópia local editável
+    // Sincroniza o item recebido da View com a copia local editavel
     item: {
       handler(novoValor) {
         this.localItem = { ...novoValor }
@@ -67,7 +68,7 @@ export default {
       deep: true,
       immediate: true
     },
-    // Limpa a validação visual do formulário sempre que o modal abre/fecha
+    // Limpa a validacao visual do formulario sempre que o modal abre/fecha
     dialog(aberto) {
       if (!aberto && this.$refs.form) {
         this.$refs.form.resetValidation()
@@ -75,6 +76,7 @@ export default {
     }
   },
   methods: {
+    // Valida o formulario e emite o evento de salvar com os dados locais
     dispararSalvar() {
       if (this.$refs.form.validate()) {
         this.$emit('salvar', this.localItem)

@@ -4,6 +4,7 @@ import HomeView from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
+// Definicao das rotas para navegacao entre as telas da aplicacao
 const routes = [
   {
     path: '/',
@@ -49,8 +50,8 @@ const routes = [
   }
 ]
 
+// Instanciacao e configuracao do roteador VueRouter
 const router = new VueRouter({
-  // 💡 Sem a propriedade mode: 'history', o Vue usa o modo Hash ('#') por padrão
   routes 
 })
 

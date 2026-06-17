@@ -16,21 +16,25 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/compradores")
+// Endpoints REST para gerenciamento de Compradores
 public class CompradorService {
 
     @Autowired
     private CompradorBO compradorBO;
 
+    // Busca os compradores associados a um leilao
     @GetMapping("/leilao/{leilaoId}")
     public ResponseEntity<List<CompradorResponseDTO>> buscarPorLeilao(@PathVariable Long leilaoId) {
         return ResponseEntity.ok(compradorBO.buscarPorLeilao(leilaoId));
     }
 
+    // Vincula uma empresa como compradora em um leilao
     @PostMapping
     public ResponseEntity<CompradorResponseDTO> vincularComprador(@Valid @RequestBody CompradorRequestDTO dto) {
         return new ResponseEntity<>(compradorBO.vincularComprador(dto), HttpStatus.CREATED);
     }
 
+    // Remove o vinculo de uma empresa compradora de um leilao
     @DeleteMapping("/empresa/{empresaId}/leilao/{leilaoId}")
     public ResponseEntity<Map<String, Object>> desvincularComprador(
             @PathVariable Long empresaId,

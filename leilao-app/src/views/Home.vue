@@ -14,21 +14,18 @@ export default {
 </script>
 
 <style scoped>
-/* Centraliza verticalmente o container na tela */
+/* Configuracaes de layout e estilizacao da imagem de fundo da Home */
 .fill-height {
   min-height: calc(100vh - 100px);
 }
 
-
 .bg-imagem {
-  /* ATENÇÃO: Substitua 'fundo.jpg' pelo nome e extensão exata da sua imagem que está em assets */
   background-image: url('../assets/backgroundaz.png'); 
-  background-size: cover;        /* Faz a imagem cobrir toda a tela sem distorcer */
-  background-position: center;   /* Centraliza o fundo na tela */
-  background-repeat: no-repeat;  /* Impede que a imagem fique se repetindo */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-/* Pequena sombra no rodapé para garantir leitura caso o fundo seja claro */
 .shadow-text {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
 }

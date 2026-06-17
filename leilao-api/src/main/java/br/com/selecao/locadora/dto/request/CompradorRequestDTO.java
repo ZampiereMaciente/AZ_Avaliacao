@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de requisicao para receber o vinculo de empresa compradora em um leilao
 public class CompradorRequestDTO {
 
     @NotNull(message = "O ID da empresa compradora é obrigatório.")

@@ -14,8 +14,10 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// Entidade que representa a tabela Comprador para mapeamento muitos-para-muitos customizado
 public class Comprador implements Serializable {
 
+    // ID composto que mapeia a chave primaria da tabela comprador
     @EmbeddedId
     private CompradorId id;
 

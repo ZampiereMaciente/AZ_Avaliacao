@@ -111,8 +111,8 @@ public class EmpresaServiceTest {
         EmpresaRequestDTO payloadAtualizacao = new EmpresaRequestDTO();
         payloadAtualizacao.setRazaoSocial("Nome Atualizado");
         payloadAtualizacao.setCnpj("12345678000199");
-        payloadAtualizacao.setEmail("atualizado@locadora.com"); // Adicionado campo obrigatório
-        payloadAtualizacao.setUsuario("usuario.atualizado");    // Adicionado campo obrigatório
+        payloadAtualizacao.setEmail("atualizado@locadora.com"); // Adicionado campo obrigatorio
+        payloadAtualizacao.setUsuario("usuario.atualizado");    // Adicionado campo obrigatorio
 
         EmpresaResponseDTO mockResposta = new EmpresaResponseDTO();
         mockResposta.setId(1L);

@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de resposta para retornar dados de Unidade
 public class UnidadeResponseDTO {
 
     private Long id;

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// Objeto de resposta padrao para retornos de erros da API
 public class ErrorResponse {
 
     private LocalDateTime timestamp;

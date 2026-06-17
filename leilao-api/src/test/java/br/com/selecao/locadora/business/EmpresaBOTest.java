@@ -18,7 +18,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional // Garante o Rollback automático de tudo para não poluir sua base real
+@Transactional // Garante o Rollback automatico de tudo para nao poluir sua base real
 @DisplayName("Testes de Integração - EmpresaBO")
 public class EmpresaBOTest {
 
@@ -31,7 +31,7 @@ public class EmpresaBOTest {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    // Método auxiliar para gerar DTOs com dados sempre inéditos
+    // Metodo auxiliar para gerar DTOs com dados sempre ineditos
     private EmpresaRequestDTO criarDtoComDadosUnicos() {
         String aleatorio = UUID.randomUUID().toString().substring(0, 5);
         String complementoCnpj = String.valueOf(System.currentTimeMillis()).substring(7, 13);
@@ -73,7 +73,7 @@ public class EmpresaBOTest {
         // Busca direto no banco para checar a entidade mapeada
         Empresa empresaNoBanco = empresaRepository.findById(resposta.getId()).orElseThrow();
 
-        // A senha no banco NÃO pode ser igual ao texto plano "senhaSegura123"
+        // A senha no banco NAO pode ser igual ao texto plano "senhaSegura123"
         assertNotEquals("senhaSegura123", empresaNoBanco.getSenha());
         // O encoder deve confirmar que a hash bate com a senha original
         assertTrue(passwordEncoder.matches("senhaSegura123", empresaNoBanco.getSenha()));
@@ -85,11 +85,11 @@ public class EmpresaBOTest {
         EmpresaRequestDTO empresa1 = criarDtoComDadosUnicos();
         empresaBO.salvar(empresa1); // Salva a primeira com sucesso
 
-        // Cria uma segunda empresa, mas força o uso do mesmo CNPJ da primeira
+        // Cria uma segunda empresa, mas forca o uso do mesmo CNPJ da primeira
         EmpresaRequestDTO empresa2 = criarDtoComDadosUnicos();
         empresa2.setCnpj(empresa1.getCnpj());
 
-        // Valida se a sua classe de negócios barra jogando a DuplicateResourceException
+        // Valida se a sua classe de negocios barra jogando a DuplicateResourceException
         assertThrows(DuplicateResourceException.class, () -> {
             empresaBO.salvar(empresa2);
         });
@@ -112,7 +112,7 @@ public class EmpresaBOTest {
     @Test
     @DisplayName("5. Deve lançar exceção ao buscar ID inexistente")
     void deveLancarExcecaoQuandoIdNaoExiste() {
-        // Valida se o sistema retorna erro amigável ao buscar uma empresa fictícia
+        // Valida se o sistema retorna erro amigavel ao buscar uma empresa ficticia
         assertThrows(ResourceNotFoundException.class, () -> {
             empresaBO.buscarPorId(999999L);
         });

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+// Classe de regras de negocio para Compradores
 public class CompradorBO {
 
     @Autowired
@@ -29,6 +30,7 @@ public class CompradorBO {
     @Autowired
     private LeilaoRepository leilaoRepository;
 
+    // Retorna a lista de compradores de um leilao
     public List<CompradorResponseDTO> buscarPorLeilao(Long leilaoId) {
         List<Comprador> compradores = compradorRepository.findByIdLeilaoId(leilaoId);
         return compradores.stream()
@@ -36,6 +38,7 @@ public class CompradorBO {
                 .collect(Collectors.toList());
     }
 
+    // Cria o vinculo de comprador de uma empresa em um leilao especifico
     public CompradorResponseDTO vincularComprador(CompradorRequestDTO dto) {
         CompradorId idComposto = new CompradorId(dto.getEmpresaId(), dto.getLeilaoId());
 
@@ -55,6 +58,7 @@ public class CompradorBO {
         return converterParaDTO(comprador);
     }
 
+    // Remove o vinculo existente de comprador
     public void desvincularComprador(Long empresaId, Long leilaoId) {
         CompradorId idComposto = new CompradorId(empresaId, leilaoId);
         Comprador comprador = compradorRepository.findById(idComposto)

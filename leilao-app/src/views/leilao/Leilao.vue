@@ -5,7 +5,7 @@
         <h2>{{ editando ? 'Editar Leilão' : 'Novo Leilão' }}</h2>
       </v-card-title>
 
-      <!-- 💡 FORMULÁRIO COMPONENTIZADO -->
+      <!-- Formulario de cadastro e edicao de Leilao -->
       <FormularioLeilao 
         :leilao="leilao"
         :empresas="empresas"
@@ -44,6 +44,7 @@ export default {
     }
   },
   methods: {
+    // Busca a lista de empresas cadastradas para popular o combo de vendedores
     async carregarEmpresas() {
       try {
         const response = await api.get('/empresas')
@@ -52,6 +53,7 @@ export default {
         console.error('Erro ao carregar empresas:', error)
       }
     },
+    // Busca os dados do leilao caso esteja no modo de edicao
     async carregarLeilao() {
       try {
         const response = await api.get(`/leiloes/${this.id}`)
@@ -63,6 +65,7 @@ export default {
     voltar() {
       this.$router.push('/leiloes')
     },
+    // Salva o leilao enviando os dados para salvar na API (novo ou edicao)
     async salvar(objetoLeilaoAtualizado) {
       try {
         if (this.editando) {

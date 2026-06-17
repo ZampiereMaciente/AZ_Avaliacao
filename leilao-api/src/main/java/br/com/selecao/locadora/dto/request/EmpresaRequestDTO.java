@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de requisicao para receber os dados de criacao ou edicao de Empresa
 public class EmpresaRequestDTO {
 
     @NotBlank(message = "Razão social é obrigatória.")

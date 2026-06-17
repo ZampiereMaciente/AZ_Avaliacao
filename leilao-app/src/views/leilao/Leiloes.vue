@@ -108,7 +108,7 @@ export default {
     loading: false,
     busca: '',
     
-    // 💡 NOVAS VARIÁVEIS: Controle dos novos modais
+    // Controle de estado dos modais de confirmacao e erro
     dialogConfirmar: false,
     leilaoSelecionado: null,
     dialogErro: false,
@@ -130,6 +130,7 @@ export default {
   },
 
   methods: {
+    // Obtem a lista completa de leiloes do backend
     async listarLeiloes() {
       this.loading = true
       try {
@@ -146,13 +147,13 @@ export default {
       this.$router.push(`/leilao/${id}`)
     },
 
-    // 💡 PASSO 1: Abre o modal de confirmação
+    // Define o leilao selecionado e exibe o modal de confirmacao de exclusao
     confirmarExclusao(item) {
       this.leilaoSelecionado = item
       this.dialogConfirmar = true
     },
 
-    // 💡 PASSO 2: Executa a exclusão de fato na API
+    // Executa a requisicao DELETE na API e exibe modal de erro se houver vinculos ativos
     async executarExclusao() {
       this.dialogConfirmar = false
       this.loading = true
@@ -168,11 +169,13 @@ export default {
       }
     },
 
+    // Formata um valor numerico para o formato de moeda Real (R$)
     formatarMoeda(valor) {
       if (!valor) return 'R$ 0,00'
       return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
     },
 
+    // Converte a data ISO vinda do backend para o padrao local brasileiro
     formatarData(dataIso) {
       if (!dataIso) return ''
       const data = new Date(dataIso)

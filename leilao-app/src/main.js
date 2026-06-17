@@ -7,9 +7,10 @@ import '@/assets/styles/global.css'
 
 Vue.config.productionTip = false
 
+// Ponto de entrada da aplicacao Vue com as devidas injecoes de plugins e frameworks
 new Vue({
   router,
   store,
-  vuetify, // ◄ O VUETIFY PRECISA SER INJETADO AQUI
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

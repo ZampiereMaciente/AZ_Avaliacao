@@ -140,7 +140,6 @@
       </v-col>
 
       <v-col cols="12" sm="6">
-        <!-- 💡 ALTERADO: Adicionado regras de validação obrigatória e o asterisco -->
         <v-text-field
           v-model="localEmpresa.usuario"
           label="Usuário*"
@@ -152,7 +151,6 @@
       </v-col>
 
       <v-col cols="12" sm="6">
-        <!-- 💡 ALTERADO: Removido asterisco do label por ser opcional -->
         <v-text-field
           v-model="localEmpresa.senha"
           :label="isEdicao ? 'Nova Senha' : 'Senha'"
@@ -194,14 +192,12 @@ export default {
     mostrarSenha: false
   }),
   computed: {
-    // 💡 MODIFICADO: A senha agora é opcional tanto na criação quanto na edição.
-    // Ela só exige tamanho mínimo SE o usuário resolver digitar algo.
+    // Regras de validacao dos campos do formulario de empresa
     regrasSenha() {
       return [
         v => !v || v.length >= 6 || 'A senha deve conter no mínimo 6 caracteres'
       ]
     },
-
     regrasCNPJ() {
       return [
         v => !!v || 'CNPJ é obrigatório',
@@ -222,6 +218,7 @@ export default {
     }
   },
   watch: {
+    // Observa alteracoes no objeto empresa para sincronizar com o estado local e reaplicar mascaras
     empresa: {
       handler(novoValor) {
         this.localEmpresa = { ...novoValor }
@@ -243,6 +240,8 @@ export default {
     }
   },
   methods: {
+    // Metodos para formatacao de mascaras em tempo real nos campos de digitacao
+    // Formata o CNPJ digitado para o padrao XX.XXX.XXX/XXXX-XX
     aplicarMascaraCNPJ() {
       let valor = this.localEmpresa.cnpj.replace(/\D/g, '')
       if (valor.length > 14) valor = valor.slice(0, 14)
@@ -252,6 +251,7 @@ export default {
       else if (valor.length <= 12) this.localEmpresa.cnpj = `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5, 8)}/${valor.slice(8)}`
       else this.localEmpresa.cnpj = `${valor.slice(0, 2)}.${valor.slice(2, 5)}.${valor.slice(5, 8)}/${valor.slice(8, 12)}-${valor.slice(12)}`
     },
+    // Formata o telefone digitado para o padrao (XX) XXXX-XXXX ou (XX) XXXXX-XXXX
     aplicarMascaraTelefone() {
       let valor = this.localEmpresa.telefone.replace(/\D/g, '')
       if (valor.length > 11) valor = valor.slice(0, 11)
@@ -260,12 +260,14 @@ export default {
       else if (valor.length <= 10) this.localEmpresa.telefone = `(${valor.slice(0, 2)}) ${valor.slice(2, 6)}-${valor.slice(6)}`
       else this.localEmpresa.telefone = `(${valor.slice(0, 2)}) ${valor.slice(2, 7)}-${valor.slice(7)}`
     },
+    // Formata o CEP digitado para o padrao XXXXX-XXX
     aplicarMascaraCEP() {
       let valor = this.localEmpresa.cep.replace(/\D/g, '')
       if (valor.length > 8) valor = valor.slice(0, 8)
       if (valor.length <= 5) this.localEmpresa.cep = valor
       else this.localEmpresa.cep = `${valor.slice(0, 5)}-${valor.slice(5)}`
     },
+    // Valida o formulario antes de emitir o evento de salvar
     dispararSalvar() {
       if (this.$refs.form.validate()) {
         this.$emit('salvar', this.localEmpresa)

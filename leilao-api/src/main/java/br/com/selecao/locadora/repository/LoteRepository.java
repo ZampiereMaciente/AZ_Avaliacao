@@ -7,11 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
+// Repositorio JPA para realizar operacoes de banco de dados na tabela Lote
 public interface LoteRepository extends JpaRepository<Lote, Long> {
 
-    // Busca todos os lotes que pertencem a um leilão específico
+    // Busca todos os lotes que pertencem a um leilao especifico
     List<Lote> findByLeilaoId(Long leilaoId);
 
-    // Ajuda a verificar se já existe o número do lote no mesmo leilão
+    // Ajuda a verificar se ja existe o numero do lote no mesmo leilao
     boolean existsByNumeroLoteAndLeilaoId(Integer numeroLote, Long leilaoId);
 }

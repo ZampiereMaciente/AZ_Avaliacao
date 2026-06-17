@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// DTO de resposta para retornar dados de Lote
 public class LoteResponseDTO {
 
     private Long id;

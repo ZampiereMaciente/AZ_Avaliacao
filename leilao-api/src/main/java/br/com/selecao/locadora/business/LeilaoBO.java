@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+// Classe de regras de negocio para Leiloes
 public class LeilaoBO {
 
     @Autowired
@@ -30,6 +31,7 @@ public class LeilaoBO {
     @Autowired
     private LoteRepository loteRepository;
 
+    // Retorna todos os leiloes com seus valores calculados
     public List<LeilaoResponseDTO> buscarTodos() {
         List<Leilao> leiloes = leilaoRepository.findAll();
         return leiloes.stream()
@@ -37,12 +39,14 @@ public class LeilaoBO {
                 .collect(Collectors.toList());
     }
 
+    // Busca um leilao especifico ou lanca excecao caso nao exista
     public LeilaoResponseDTO buscarPorId(Long id) {
         Leilao leilao = leilaoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Leilão não encontrado para o id: " + id));
         return converterParaDTO(leilao);
     }
 
+    // Cria um novo leilao validando duplicidade de codigo
     public LeilaoResponseDTO salvar(LeilaoRequestDTO dto) {
         if (leilaoRepository.existsByCodigo(dto.getCodigo())) {
             throw new DuplicateResourceException("Já existe um leilão cadastrado com o código: " + dto.getCodigo());
@@ -61,6 +65,7 @@ public class LeilaoBO {
         return converterParaDTO(leilao);
     }
 
+    // Atualiza um leilao existente validando duplicidade de codigo
     public LeilaoResponseDTO atualizar(Long id, LeilaoRequestDTO dto) {
         Leilao leilao = leilaoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Leilão não encontrado para o id: " + id));
@@ -82,6 +87,7 @@ public class LeilaoBO {
         return converterParaDTO(leilao);
     }
 
+    // Exclui um leilao do sistema pelo ID
     public void deletar(Long id) {
         Leilao leilao = leilaoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Leilão não encontrado para o id: " + id));
@@ -95,7 +101,7 @@ public class LeilaoBO {
 
     private LeilaoResponseDTO converterParaDTO(Leilao leilao) {
 
-        // Busca todos os lotes associados a este leilão específico
+        // Busca todos os lotes associados a este leilao especifico
         List<Lote> lotes = loteRepository.findByLeilaoId(leilao.getId());
 
 

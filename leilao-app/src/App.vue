@@ -1,3 +1,4 @@
+<!-- Layout principal da aplicacao com a barra de navegacao global e a renderizacao das rotas -->
 <template>
   <v-app>
     <v-app-bar app color="primary" dark dense>
@@ -23,7 +24,6 @@
 </template>
 
 <style>
-/* Estilos globais se necessários */
 body {
   background-color: #f5f5f5;
 }
